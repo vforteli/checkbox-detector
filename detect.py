@@ -2,7 +2,8 @@ import cv2
 from utils import check_angles_90_degrees
 
 
-image = cv2.imread('test_images/test_2.png', cv2.IMREAD_GRAYSCALE)
+image = cv2.imread('test_images/form.png', cv2.IMREAD_GRAYSCALE)
+# image = cv2.imread('image.png', cv2.IMREAD_GRAYSCALE)
 blurred = cv2.GaussianBlur(image, (5, 5), 0)  # get rid of noise
 
 # Apply thresholding to get a binary image
@@ -21,7 +22,7 @@ for i, contour in enumerate(contours):
     approx = cv2.approxPolyDP(contour, epsilon, True)
 
     # if we have 4 points and the and the angles are all roughly 90 degrees, this is probably a rectangle \o/
-    if len(approx) == 4 and check_angles_90_degrees(approx):
+    if len(approx) == 4 and check_angles_90_degrees(approx, tolerance=20):
         x, y, w, h = cv2.boundingRect(contour)
         cv2.polylines(output_image, approx, True, (0, 255, 0))
 
